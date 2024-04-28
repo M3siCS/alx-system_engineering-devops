@@ -1,38 +1,4 @@
 #!/usr/bin/env bash
+# prints processes
 
-# Default values
-username=""
-sort_field=""
-
-# Parse command line options
-while getopts ":u:s:" opt; do
-    case ${opt} in
-        u)
-            username=$OPTARG
-            ;;
-        s)
-            sort_field=$OPTARG
-            ;;
-        \?)
-            echo "Invalid option: $OPTARG" >&2
-            exit 1
-            ;;
-        :)
-            echo "Option -$OPTARG requires an argument" >&2
-            exit 1
-            ;;
-    esac
-done
-
-# Construct ps command based on options
-ps_command="ps u"
-if [ -n "$username" ]; then
-    ps_command+=" -u $username"
-fi
-if [ -n "$sort_field" ]; then
-    ps_command+=" --sort=$sort_field"
-fi
-
-# Print processes
-$ps_command | awk 'NR>1 {print}'
-
+ps u -A -H
