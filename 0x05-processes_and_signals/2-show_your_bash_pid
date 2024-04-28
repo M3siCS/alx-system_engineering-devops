@@ -1,7 +1,5 @@
-#!/bin/bash
-
+#!/usr/bin/env bash
+# Uses code from "1-list_your_processes" to only display lines containing "bash"
 # shellcheck disable=SC2009
 
-# Find the PID of the current Bash process
-ps aux | grep bash | grep -v grep
-
+ps axuf | grep "bash"
