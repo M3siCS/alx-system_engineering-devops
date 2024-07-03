@@ -1,7 +1,22 @@
 #!/usr/bin/env bash
-# Installs nginx server
+
+# Install nginx
 apt-get update
-apt-get -y install nginx
-ufw allow 'Nginx HTTP'
+apt-get install -y nginx
+
+# Ensure nginx is listening on port 80
+sed -i 's/^\(server {\)/\1\n\tlisten 80;/' /etc/nginx/sites-available/default
+
+# Create index.html with Hello World!
 echo "Hello World!" > /var/www/html/index.html
-service nginx start
+
+# Restart nginx without systemctl
+kill -s HUP $(pgrep -f 'nginx: master process')
+
+# Verify nginx is running
+nginx_pid=$(pgrep -f 'nginx: master process')
+if [ -z "$nginx_pid" ]; then
+	    echo "Nginx failed to restart."
+	        exit 1
+fi
+
