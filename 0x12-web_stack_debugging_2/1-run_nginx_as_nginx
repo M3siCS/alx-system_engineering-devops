@@ -1,5 +1,11 @@
 #!/usr/bin/env bash
 # Fixes server bug
+
+if ! id -u nginx > /dev/null 2>&1; then
+	    echo "The nginx user does not exist. Creating nginx user."
+	        useradd -r -s /bin/false nginx
+fi
+
 chmod 644 /etc/nginx/nginx.conf
 sed -Ei 's/\s*#?\s*user .*/user nginx;/' /etc/nginx/nginx.conf
 sed -Ei 's/(listen (\[::\]:)?80) /\180 /' /etc/nginx/sites-enabled/default
